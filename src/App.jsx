@@ -143,21 +143,21 @@ function App() {
             <nav className="navbar">              
                 <div className='navbar-links'>
                 <Link to="/" className='header-title'>🎬 Movie Search</Link> 
-                <Link to="/favorites" className='favorite-button'><i className="far fa-heart"></i> Favorites ({favorites.length})</Link>  
+                <Link to="/favorites" className='favorite-button'><i className="far fa-heart favorite-button-icon"></i> Favorites ({favorites.length})</Link>  
                 </div>              
               
                 <div className='theme-container'>
-  <button onClick={toggleTheme} className="theme-toggle">
-    <div className="theme-icons-container">
-      <div className={`theme-icon sun-icon ${!isDark ? 'active' : ''}`}>
-        <i className="far fa-sun"></i>
-      </div>
-      <div className={`theme-icon moon-icon ${isDark ? 'active' : ''}`}>
-        <i className="far fa-moon"></i>
-      </div>
-    </div>
-  </button>
-</div>
+                  <button onClick={toggleTheme} className="theme-toggle">
+                    <div className="theme-icons-container">
+                      <div className={`theme-icon sun-icon ${!isDark ? 'active' : ''}`}>
+                        <i className="far fa-sun"></i>
+                      </div>
+                      <div className={`theme-icon moon-icon ${isDark ? 'active' : ''}`}>
+                        <i className="far fa-moon"></i>
+                      </div>
+                    </div>
+                  </button>
+                </div>
             </nav>
           </div>
         </div>

@@ -114,10 +114,8 @@ export const MovieDetailsPage = ({ onToggleFavorite, isFavorite }) => {
             <div className="details-info">
               <h1>{movie.title}</h1>
               <p className="release-date">Year: {movie.release_date?.split('-')[0] || 'N/A'}</p>
-              <div className="movie-rating">
-                <span className="rating-star">
-                  <i className="far fa-star"></i>
-                </span>
+              <div className="movie-rating details-movie-rating">                
+                <i className="far fa-star rating-star"></i>                
                 <span className="rating-value">{movie.vote_average?.toFixed(1) || 'N/A'} / 10 </span>
                 <span className="rating-count">({movie.vote_count?.toLocaleString() || 0} votes)</span>
               </div>
@@ -127,7 +125,7 @@ export const MovieDetailsPage = ({ onToggleFavorite, isFavorite }) => {
                   className="watch-trailer-btn"
                   onClick={handleWatchTrailer}
                 >
-                  <i className="fas fa-video"></i> Watch trailer
+                  <i className="fa-brands fa-youtube youtube-icon"></i> Watch trailer
                 </button>
               </div>
 

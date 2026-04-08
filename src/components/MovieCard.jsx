@@ -34,10 +34,8 @@ export const MovieCard = ({ movie, isFavorite, onToggleFavorite }) => {
         <div className="movie-year">
           {movie.release_date ? movie.release_date.split('-')[0] : 'N/A'}
         </div>
-        <div className="movie-rating">
-          <span className="rating-star">
-            <i className="far fa-star"></i>
-          </span>
+        <div className="movie-rating">          
+          <i className="far fa-star rating-star"></i>          
           <span className="rating-value">{movie.vote_average?.toFixed(1) || 'N/A'} / 10 </span>
           <span className="rating-count">({movie.vote_count?.toLocaleString() || 0} votes)</span>
         </div>

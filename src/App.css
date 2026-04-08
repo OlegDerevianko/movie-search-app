@@ -1,8 +1,9 @@
-
-
 :root {
+  --bg-primary-rgb: 10, 15, 28;
   --bg-primary: #0a0f1c;
   --bg-secondary: #1e2436;
+    --icon-light: #f5f5f5;
+
   --text-primary: #ffffff;
   --text-secondary: #7f8c8d;
   --border-color: #2a2f3f;
@@ -11,10 +12,11 @@
   --skeleton-base: rgba(255, 255, 255, 0.1);
   --skeleton-highlight: rgba(255, 255, 255, 0.2);
 }
-
 [data-theme="light"] {
+  --bg-primary-rgb: 245, 245, 245;
   --bg-primary: #f5f5f5;
   --bg-secondary: #ffffff;
+  --icon-dark: #333333;
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
   --border-color: #e0e0e0;
@@ -24,7 +26,6 @@
   --skeleton-highlight: rgba(0, 0, 0, 0.15);
 }
 
-/* Остальной код без дублирований... */
 * {
   margin: 0;
   padding: 0;
@@ -66,42 +67,129 @@ button {
   width: 100%;
 }
 .header {
-  position: relative;
-  padding: 40px 0;
-  margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(var(--bg-primary-rgb), 0.7);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-light);
+  padding: 40px 0;
 }
 .header-container {
   padding: 0 20px;
 }
 .navbar {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+  justify-content: space-between;
+  align-items: stretch
 }
 .header-title {
   font-size: 24px;
   font-weight: 600;
 }
-.navbar a, .navbar button {
+.navbar a {
   color: var(--text-primary);
   font-weight: 500;
 }
-.nav-right {
+.navbar-links {
+  flex: 9;  
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: flex-end;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
 }
-.theme-toggle {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  z-index: 10;
-  font-size: 24px;
-  padding: 5px 10px;
+.favorite-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  background: var(--bg-secondary);
   color: var(--text-primary);
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+}
+.favorite-button:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.theme-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  border-left: 1px solid var(--border-light);
+}
+
+.theme-toggle {
+  padding-right: 20px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+.theme-icons-container {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  overflow: visible;
+}
+
+.theme-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Солнце - активно при светлой теме (isDark = false) */
+.sun-icon {
+  color: var(--icon-dark);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.sun-icon.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Когда солнце не активно - уезжает вниз */
+.sun-icon:not(.active) {
+  transform: translateY(150%);
+  opacity: 0;
+}
+
+/* Луна - активна при тёмной теме (isDark = true) */
+.moon-icon {
+  color: var(--icon-light);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.moon-icon.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Когда луна не активна - уезжает вверх */
+.moon-icon:not(.active) {
+  transform: translateY(-150%);
+  opacity: 0;
 }
 @media (min-width: 500px) {
   .header-title {

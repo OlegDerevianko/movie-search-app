@@ -541,7 +541,7 @@
 }
 .cast-section h3 {
   font-size: 20px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   margin-bottom: 20px;
 }
 .cast-list {
@@ -898,5 +898,76 @@
 @media (max-width: 768px) {
   .skeleton-details-poster {
     height: 300px;
+  }
+}
+
+
+
+/* Year Filter */
+.year-filter {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-light);
+}
+
+.year-filter-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.year-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.year-btn {
+  padding: 6px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.year-btn:hover {
+  background: #ff4757;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.year-btn.active {
+  background: #ff4757;
+  color: white;
+  border-color: #ff4757;
+}
+
+.year-btn.show-more {
+  background: transparent;
+  border: 1px dashed #ff4757;
+  color: #ff4757;
+}
+
+.year-btn.show-more:hover {
+  background: #ff4757;
+  color: white;
+}
+
+/* Адаптация */
+@media (max-width: 768px) {
+  .year-buttons {
+    max-height: 100px;
+  }
+  
+  .year-btn {
+    padding: 4px 10px;
+    font-size: 12px;
   }
 }

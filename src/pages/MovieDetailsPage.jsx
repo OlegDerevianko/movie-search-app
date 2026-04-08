@@ -30,7 +30,7 @@ export const MovieDetailsPage = ({ onToggleFavorite, isFavorite }) => {
         setWatchProviders(providers);
         
         if (movieData.credits?.cast) {
-          setActors(movieData.credits.cast.slice(0, 10));
+          setActors(movieData.credits.cast.slice(0, 8));
         }
       } catch (error) {
         console.error('Loading error:', error);

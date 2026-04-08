@@ -10,6 +10,8 @@ import { FavoritesPage } from './pages/FavoritesPage';
 import { GenreFilter } from './components/GenreFilter';
 import { SortBy } from './components/SortBy';
 import { SkeletonGrid } from './components/SkeletonGrid';
+import { YearFilter } from './components/YearFilter';
+
 import './App.css';
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [sortBy, setSortBy] = useState('popularity.desc');
   const { isDark, toggleTheme } = useTheme();
+  const [selectedYear, setSelectedYear] = useState(null);
 
   // Простая функция загрузки без useCallback
   const fetchMovies = async (pageNum, isReset) => {
@@ -36,8 +39,11 @@ function App() {
       } else if (selectedGenres.length > 0) {
         data = await discoverMoviesByGenres(selectedGenres, pageNum);
       } else {
-        data = await getMoviesWithSort(sortBy, pageNum);
-      }
+        // Добавляем фильтрацию по году
+        const yearParam = selectedYear ? `&primary_release_year=${selectedYear}` : '';
+        data = await getMoviesWithSort(sortBy, pageNum, selectedGenres, selectedYear);
+      } 
+      
       
       const results = data.results || [];
       const total = data.total_pages || 0;
@@ -65,18 +71,23 @@ function App() {
       setLoading(false);
     }
   };
-
+  
   // Загрузка при изменении поиска, жанров или сортировки
   useEffect(() => {
     setPage(1);
     fetchMovies(1, true);
-  }, [searchQuery, selectedGenres, sortBy]);
+  }, [searchQuery, selectedGenres, sortBy, selectedYear]);
 
   // Начальная загрузка
   useEffect(() => {
     fetchMovies(1, true);
   }, []);
 
+  // Функция для обновления года
+const handleYearChange = (year) => {
+  setSelectedYear(year);
+  setPage(1);
+};
   // Функция для подгрузки следующей страницы
   const loadMore = () => {
     if (!loading && hasMore) {
@@ -133,6 +144,8 @@ function App() {
     setSearchQuery('');
     setSelectedGenres([]);
     setSortBy('popularity.desc');
+    setSelectedYear();
+    setPage(1);
   };
 
   return (
@@ -172,12 +185,14 @@ function App() {
                   <GenreFilter selectedGenres={selectedGenres} onGenreToggle={handleGenreToggle} />
                   <div className='filters-buttons'>
                     <SortBy onSortChange={handleSortChange} currentSort={sortBy} />
-                    {(searchQuery || selectedGenres.length > 0 || sortBy !== 'popularity.desc') && (
+                    {(searchQuery || selectedGenres.length > 0 || sortBy !== 'popularity.desc' || selectedYear !== null) && (
                       <button className="clear-filters-btn" onClick={clearFilters}>
                         <i className="fas fa-bucket"></i> Clear filters
                       </button>
                     )}
                   </div>
+                  {/* Добавьте YearFilter */}
+  <YearFilter selectedYear={selectedYear} onYearChange={handleYearChange} />
                 </div>
               </div>
               

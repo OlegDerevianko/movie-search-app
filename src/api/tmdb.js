@@ -87,7 +87,7 @@ export const discoverMoviesByGenres = async (genreIds, page = 1) => {
   }
 };
 // Функция для получения фильмов с сортировкой и фильтрацией по жанрам
-export const getMoviesWithSort = async (sortBy, page = 1, genreIds = []) => {
+export const getMoviesWithSort = async (sortBy, page = 1, genreIds = [], year = null) => {
   try {
     const params = {
       api_key: API_KEY,
@@ -99,10 +99,14 @@ export const getMoviesWithSort = async (sortBy, page = 1, genreIds = []) => {
       params.with_genres = genreIds.join(',');
     }
     
+    if (year) {
+      params.primary_release_year = year;
+    }
+    
     const response = await axios.get(`${BASE_URL}/discover/movie`, { params });
     return response.data;
   } catch (error) {
-    console.error('Sorting error:', error);
+    console.error('Ошибка сортировки:', error);
     return { results: [], total_pages: 0 };
   }
 };

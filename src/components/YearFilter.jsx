@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 export const YearFilter = ({ selectedYear, onYearChange }) => {
   const [years, setYears] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    // Генерируем года от 1970 до текущего
     const currentYear = new Date().getFullYear();
     const yearList = [];
     for (let i = currentYear; i >= 1970; i--) {
@@ -19,9 +17,18 @@ export const YearFilter = ({ selectedYear, onYearChange }) => {
 
   return (
     <div className="year-filter">
-      <label className="year-filter-label">
-        <i className="fas fa-calendar-alt"></i> Year:
-      </label>
+      <div className="year-filter-title">
+        <h3>Filter by year:</h3>
+        {years.length > 10 && (
+          <button
+            className="year-btn show-more"
+            onClick={() => setShowAll(!showAll)}
+          >
+            <i className={`fas fa-chevron-${showAll ? 'up' : 'down'}`}></i>
+            {showAll ? 'Show less' : 'Show more'}
+          </button>
+        )}
+      </div>
       
       <div className="year-buttons">
         <button
@@ -41,14 +48,7 @@ export const YearFilter = ({ selectedYear, onYearChange }) => {
           </button>
         ))}
         
-        {years.length > 10 && (
-          <button
-            className="year-btn show-more"
-            onClick={() => setShowAll(!showAll)}
-          >
-            {showAll ? 'Show less ↑' : 'Show more ↓'}
-          </button>
-        )}
+        
       </div>
     </div>
   );

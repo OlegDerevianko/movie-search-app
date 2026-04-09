@@ -3,14 +3,16 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { searchMovies, getMoviesWithSort, discoverMoviesByGenres } from './api/tmdb';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTheme } from './context/ThemeContext';
-import { SearchBar } from './components/SearchBar';
 import { MovieCard } from './components/MovieCard';
 import { MovieDetailsPage } from './pages/MovieDetailsPage';
 import { FavoritesPage } from './pages/FavoritesPage';
+
+import { SearchBar } from './components/SearchBar';
 import { GenreFilter } from './components/GenreFilter';
-import { SortBy } from './components/SortBy';
-import { SkeletonGrid } from './components/SkeletonGrid';
 import { YearFilter } from './components/YearFilter';
+import { SortBy } from './components/SortBy';
+
+import { SkeletonGrid } from './components/SkeletonGrid';
 
 import './App.css';
 
@@ -144,10 +146,10 @@ const handleYearChange = (year) => {
     setSearchQuery('');
     setSelectedGenres([]);
     setSortBy('popularity.desc');
-    setSelectedYear();
-    setPage(1);
+    setSelectedYear(null);
+    setPage(1);  
   };
-
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   return (
     <BrowserRouter>
       <div className="app">
@@ -181,18 +183,38 @@ const handleYearChange = (year) => {
               <SearchBar onSearch={handleSearch} isLoading={loading} />
               
               <div className='filters-container'>
-                <div className="filters-panel">
-                  <GenreFilter selectedGenres={selectedGenres} onGenreToggle={handleGenreToggle} />
+                <div className='filters-content'>
+                <div className="filters-header">
+                  <div className="filters-title">
+                  <i className="fa-solid fa-filter"></i>                    
+                  <h3>Filters</h3> 
+                  </div>
                   <div className='filters-buttons'>
-                    <SortBy onSortChange={handleSortChange} currentSort={sortBy} />
-                    {(searchQuery || selectedGenres.length > 0 || sortBy !== 'popularity.desc' || selectedYear !== null) && (
+                  {(searchQuery || selectedGenres.length > 0 || sortBy !== 'popularity.desc' || selectedYear !== null) && (
                       <button className="clear-filters-btn" onClick={clearFilters}>
                         <i className="fas fa-bucket"></i> Clear filters
                       </button>
-                    )}
+                    )}  
+                  <button 
+                    className="filters-toggle-btn"
+                    onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+                  >
+                    <i className={`fas fa-chevron-${isFiltersOpen ? 'up' : 'down'}`}></i>
+                    {isFiltersOpen ? 'Hide' : 'Show'}
+                  </button>
                   </div>
-                  {/* Добавьте YearFilter */}
-  <YearFilter selectedYear={selectedYear} onYearChange={handleYearChange} />
+                </div>
+                
+                {isFiltersOpen && (
+                  <div className="filters-panel">
+                    <GenreFilter selectedGenres={selectedGenres} onGenreToggle={handleGenreToggle} />
+                    <YearFilter selectedYear={selectedYear} onYearChange={handleYearChange} />
+                    <SortBy onSortChange={handleSortChange} currentSort={sortBy} />
+                    
+                            
+                  </div>
+                )}
+
                 </div>
               </div>
               

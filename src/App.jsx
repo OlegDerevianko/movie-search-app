@@ -7,10 +7,8 @@ import { MovieCard } from './components/MovieCard';
 import { MovieDetailsPage } from './pages/MovieDetailsPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 
-import { SearchBar } from './components/SearchBar';
-import { GenreFilter } from './components/GenreFilter';
-import { YearFilter } from './components/YearFilter';
-import { SortBy } from './components/SortBy';
+import { FilmIcon } from './components/icons/FilmIcon';
+import { DiscoverSection } from './components/DiscoverSection';
 
 import { SkeletonGrid } from './components/SkeletonGrid';
 
@@ -32,10 +30,10 @@ function App() {
   const fetchMovies = async (pageNum, isReset) => {
     if (loading && !isReset) return;
     setLoading(true);
-    
+
     try {
       let data;
-      
+
       // Если есть поисковый запрос - используем search endpoint
       if (searchQuery) {
         data = await searchMovies(searchQuery, pageNum);
@@ -47,23 +45,23 @@ function App() {
           page: pageNum,
           sort_by: sortBy,
         };
-        
+
         // Добавляем жанры (если выбраны)
         if (selectedGenres.length > 0) {
           params.with_genres = selectedGenres.join(',');
         }
-        
+
         // Добавляем год (если выбран)
         if (selectedYear) {
           params.primary_release_year = selectedYear;
         }
-        
+
         data = await discoverMoviesWithFilters(params);
       }
-      
+
       const results = data.results || [];
       const total = data.total_pages || 0;
-      
+
       if (isReset) {
         setMovies(results);
       } else {
@@ -73,7 +71,7 @@ function App() {
           return [...prev, ...newMovies];
         });
       }
-      
+
       setHasMore(pageNum < total);
     } catch (error) {
       console.error('Error:', error);
@@ -82,7 +80,7 @@ function App() {
       setLoading(false);
     }
   };
-  
+
   // Загрузка при изменении поиска, жанров или сортировки
   useEffect(() => {
     setPage(1);
@@ -95,18 +93,18 @@ function App() {
   }, []);
 
   // Функция для обновления года
-const handleYearChange = (year) => {
-  setSelectedYear(year);
-  setPage(1);
-};
-  // Функция для подгрузки следующей страницы
-  const loadMore = () => {
-    if (!loading && hasMore) {
-      const nextPage = page + 1;
-      setPage(nextPage);
-      fetchMovies(nextPage, false);
-    }
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    setPage(1);
   };
+    // Функция для подгрузки следующей страницы
+    const loadMore = () => {
+      if (!loading && hasMore) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchMovies(nextPage, false);
+      }
+    };
 
   // Обработчик скролла
   useEffect(() => {
@@ -158,18 +156,24 @@ const handleYearChange = (year) => {
     setSelectedYear(null);
     setPage(1);  
   };
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   return (
     <BrowserRouter>
       <div className="app">
         <div className='header'>
           <div className='header-container'>
-            <nav className="navbar">              
+            <nav className="navbar">
                 <div className='navbar-links'>
-                <Link to="/" className='header-title'>🎬 Movie Search</Link> 
-                <Link to="/favorites" className='favorite-button'><i className="far fa-heart favorite-button-icon"></i> Favorites ({favorites.length})</Link>  
+                <Link to="/" className='header-title'>
+                  <FilmIcon size={24}/>
+                  <h1>Movie Search</h1>
+                </Link>
+                {/* Кнопка избранного с количеством */}
+                <Link to="/favorites" className='favorite-button'>
+                  <i className="far fa-heart favorite-button-icon"></i> 
+                  Favorites
+                </Link>  
                 </div>              
-              
+                {/* Кнопка переключения темы */}
                 <div className='theme-container'>
                   <button onClick={toggleTheme} className="theme-toggle">
                     <div className="theme-icons-container">
@@ -189,55 +193,32 @@ const handleYearChange = (year) => {
         <Routes>
           <Route path="/" element={
             <>
-              <SearchBar onSearch={handleSearch} isLoading={loading} />
+            <DiscoverSection
+              // Search
+              onSearch={handleSearch}
+              isLoading={loading}
               
-              <div className='filters-container'>
-                <div className='filters-content'>
-                <div className="filters-header">
-                  <div className="filters-title">
-                  <i className="fa-solid fa-filter"></i>                    
-                  <h3>Filters</h3> 
-                  </div>
-                  <div className='filters-buttons'>
-                  {(searchQuery || selectedGenres.length > 0 || sortBy !== 'popularity.desc' || selectedYear !== null) && (
-                      <button className="clear-filters-btn" onClick={clearFilters}>
-                        <i className="fas fa-bucket"></i> Clear filters
-                      </button>
-                    )}  
-                  <button 
-                    className="filters-toggle-btn"
-                    onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                  >
-                    <i className={`fas fa-chevron-${isFiltersOpen ? 'up' : 'down'}`}></i>
-                    {isFiltersOpen ? 'Hide' : 'Show'}
-                  </button>
-                  </div>
-                </div>
-                
-                {isFiltersOpen && (
-                  <div className="filters-panel">
-                    <GenreFilter selectedGenres={selectedGenres} onGenreToggle={handleGenreToggle} />
-                    <YearFilter selectedYear={selectedYear} onYearChange={handleYearChange} />
-                    <SortBy onSortChange={handleSortChange} currentSort={sortBy} />
-                    
-                            
-                  </div>
-                )}
-
-                </div>
-              </div>
+              // Filters
+              selectedGenres={selectedGenres}
+              onGenreToggle={handleGenreToggle}
+              selectedYear={selectedYear}
+              onYearChange={handleYearChange}
+              sortBy={sortBy}
+              onSortChange={handleSortChange}
+              
+              // UI
+              searchQuery={searchQuery}
+              moviesLength={movies.length}
+              
+              // Clear filters
+              onClearFilters={clearFilters}
+            />
               
               {loading && movies.length === 0 ? (
                 <SkeletonGrid count={8} />
               ) : (
                 <>
-                  <div className='results-container'>
-                    <div className="results-info">
-                      <p>Movies found: {movies.length}</p>
-                      {selectedGenres.length > 0 && <p>Genres: {selectedGenres.length} selected</p>}
-                      {searchQuery && <p>Search: "{searchQuery}"</p>}
-                    </div>
-                  </div>
+                  
                   
                   <div className="movies-grid">
                     {movies.map(movie => (

@@ -24,11 +24,11 @@ export const SearchBar = ({ onSearch, isLoading }) => {
     <div className="search-container">
       <div className="search-bar">
         <div className="search-icon-inside">
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <i className="fas fa-magnifying-glass"></i>
         </div>
         <input
           type="text"
-          placeholder="Searching for movies... (For example, Inception)"
+          placeholder="Searching for movies..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -40,7 +40,7 @@ export const SearchBar = ({ onSearch, isLoading }) => {
             onClick={handleClear}
             disabled={isLoading}
           >
-            <i className="fa-solid fa-times"></i>
+            <i className="fas fa-times"></i>
           </button>
         )}
         <button 
@@ -51,7 +51,7 @@ export const SearchBar = ({ onSearch, isLoading }) => {
           {isLoading ? (
             <span className="search-spinner">⏳</span>
           ) : (
-            <i className="fa-solid fa-arrow-right"></i>
+            <i className="fas fa-arrow-right"></i>
           )}
         </button>
       </div>

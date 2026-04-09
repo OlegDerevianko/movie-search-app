@@ -3,12 +3,14 @@ import { MovieCard } from '../components/MovieCard';
 export const FavoritesPage = ({ favorites, onToggleFavorite }) => {
   return (
     <div className="favorites-page">
-      <h1>
-        Favorites
-        {favorites.length > 0 && (
-          <span className="favorites-count">({favorites.length})</span>
-        )}
-      </h1>
+      <div className='favorites-title'>
+        <h1>
+          Favorites
+          {favorites.length > 0 && (
+            <span className="favorites-count">({favorites.length})</span>
+          )}
+        </h1>
+      </div>
       
       {favorites.length === 0 ? (
         <p className="no-favorites">

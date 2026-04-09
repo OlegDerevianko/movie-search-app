@@ -139,3 +139,18 @@ export const getMovieWatchProviders = async (movieId) => {
     return null;
   }
 };
+// Новая функция для комбинированной фильтрации
+export const discoverMoviesWithFilters = async (params) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/discover/movie`, {
+      params: {
+        api_key: API_KEY,
+        ...params,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Filters error:', error);
+    return { results: [], total_pages: 0 };
+  }
+};

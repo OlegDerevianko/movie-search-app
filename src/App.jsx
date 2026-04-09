@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { searchMovies, getMoviesWithSort, discoverMoviesByGenres } from './api/tmdb';
+import { searchMovies, getMoviesWithSort, discoverMoviesByGenres, discoverMoviesWithFilters } from './api/tmdb';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTheme } from './context/ThemeContext';
 import { MovieCard } from './components/MovieCard';
@@ -36,16 +36,30 @@ function App() {
     try {
       let data;
       
+      // Если есть поисковый запрос - используем search endpoint
       if (searchQuery) {
         data = await searchMovies(searchQuery, pageNum);
-      } else if (selectedGenres.length > 0) {
-        data = await discoverMoviesByGenres(selectedGenres, pageNum);
-      } else {
-        // Добавляем фильтрацию по году
-        const yearParam = selectedYear ? `&primary_release_year=${selectedYear}` : '';
-        data = await getMoviesWithSort(sortBy, pageNum, selectedGenres, selectedYear);
       } 
-      
+      // Иначе используем discover endpoint с комбинацией всех фильтров
+      else {
+        // Собираем все параметры фильтрации
+        const params = {
+          page: pageNum,
+          sort_by: sortBy,
+        };
+        
+        // Добавляем жанры (если выбраны)
+        if (selectedGenres.length > 0) {
+          params.with_genres = selectedGenres.join(',');
+        }
+        
+        // Добавляем год (если выбран)
+        if (selectedYear) {
+          params.primary_release_year = selectedYear;
+        }
+        
+        data = await discoverMoviesWithFilters(params);
+      }
       
       const results = data.results || [];
       const total = data.total_pages || 0;
@@ -53,15 +67,10 @@ function App() {
       if (isReset) {
         setMovies(results);
       } else {
-        // ✅ Используем Map для гарантии уникальности
         setMovies(prev => {
-          const movieMap = new Map();
-          // Добавляем существующие фильмы
-          prev.forEach(movie => movieMap.set(movie.id, movie));
-          // Добавляем новые (если id уже есть, перезапишется)
-          results.forEach(movie => movieMap.set(movie.id, movie));
-          // Превращаем обратно в массив
-          return Array.from(movieMap.values());
+          const existingIds = new Set(prev.map(m => m.id));
+          const newMovies = results.filter(movie => !existingIds.has(movie.id));
+          return [...prev, ...newMovies];
         });
       }
       

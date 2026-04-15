@@ -37,23 +37,3 @@ A modern, full-featured movie search application built with React. Discover movi
 
 [Live Demo](https://your-vercel-url.vercel.app)
 
-## 📸 Screenshots
-
-| Home Page | Movie Details | Favorites |
-|-----------|---------------|-----------|
-| ![Home](screenshots/home.png) | ![Details](screenshots/details.png) | ![Favorites](screenshots/favorites.png) |
-
-## 🏗️ Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/OlegDerevianko/movie-search-app.git
-
-# Navigate to project folder
-cd movie-search-app
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev

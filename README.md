@@ -1,16 +1,59 @@
-# React + Vite
+# 🎬 Movie Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, full-featured movie search application built with React. Discover movies, filter by genre and year, save favorites, watch trailers, and more.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-18-blue)
+![React Router](https://img.shields.io/badge/React_Router-v6-orange)
+![TMDB API](https://img.shields.io/badge/TMDB_API-v3-green)
+![Vite](https://img.shields.io/badge/Vite-5-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- 🔍 **Real-time search** with debounce
+- 🎭 **Filter by genre** (multi-select)
+- 📅 **Filter by year** (1970–present)
+- 📊 **Sort movies** by popularity, rating, release date, and title
+- ❤️ **Favorites list** (saved to localStorage)
+- 🎬 **Watch trailers** (YouTube modal)
+- 🎭 **Cast information** (top 10 actors)
+- 📺 **Watch providers** (where to stream/buy/rent)
+- 🌙 **Dark/Light theme** toggle
+- 📜 **Infinite scroll** pagination
+- ⚡ **Skeleton loaders** for better UX
+- 📱 **Fully responsive** design
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React 18, React Router v6
+- **Animations:** Framer Motion
+- **HTTP Client:** Axios
+- **API:** TMDB (The Movie Database)
+- **Build Tool:** Vite
+- **Styling:** CSS Modules / Custom CSS
+- **Icons:** FontAwesome
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Demo
+
+[Live Demo](https://your-vercel-url.vercel.app)
+
+## 📸 Screenshots
+
+| Home Page | Movie Details | Favorites |
+|-----------|---------------|-----------|
+| ![Home](screenshots/home.png) | ![Details](screenshots/details.png) | ![Favorites](screenshots/favorites.png) |
+
+## 🏗️ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/OlegDerevianko/movie-search-app.git
+
+# Navigate to project folder
+cd movie-search-app
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev

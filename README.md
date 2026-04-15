@@ -35,5 +35,5 @@ A modern, full-featured movie search application built with React. Discover movi
 
 ## 🚀 Demo
 
-[Live Demo](https://your-vercel-url.vercel.app)
+[Live Demo](https://movie-search-app-two-pink.vercel.app/)
 
